@@ -16,7 +16,6 @@
             overflow: hidden;
         }
 
-        /* Filtre sombre */
         .dark-filter {
             position: absolute;
             top: 0;
@@ -38,11 +37,9 @@
         }
 
         .logo {
-            width: 300px; /* Taille augmentée */
-            animation: pulse 2.5s infinite ease-in-out;
+            width: 300px;
         }
 
-        /* Texte en bas à gauche */
         .loading-text {
             position: absolute;
             bottom: 30px;
@@ -54,18 +51,34 @@
             animation: wave 2s infinite ease-in-out;
         }
 
-        /* Effet vague */
         @keyframes wave {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-7px); }
             100% { transform: translateY(0px); }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.07); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.9; }
+        /* Volume control */
+        .volume-control {
+            position: absolute;
+            bottom: 25px;
+            right: 35px;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+        .volume-control input[type="range"] {
+            width: 120px;
+            cursor: pointer;
+        }
+
+        .volume-label {
+            color: white;
+            font-size: 16px;
+            opacity: 0.85;
+        }
+
     </style>
 </head>
 <body>
@@ -77,6 +90,41 @@
     </div>
 
     <div class="loading-text">Chargement du serveur...</div>
+
+    <!-- Volume control -->
+    <div class="volume-control">
+        <span class="volume-label">🔊</span>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+    </div>
+
+    <!-- Musique -->
+    <audio id="bgm" src="musique1.mp3" autoplay loop></audio>
+
+    <script>
+        const audio = document.getElementById("bgm");
+        const slider = document.getElementById("volumeSlider");
+
+        let targetVolume = 0.5;   // Volume final
+        audio.volume = 0;         // Volume initial (fade-in)
+
+        slider.value = targetVolume;
+
+        // Fade-in progressif
+        let fadeInterval = setInterval(() => {
+            if (audio.volume < targetVolume) {
+                audio.volume += 0.01;
+            } else {
+                audio.volume = targetVolume;
+                clearInterval(fadeInterval);
+            }
+        }, 100); // toutes les 100 ms
+
+        // Contrôle manuel du volume
+        slider.addEventListener("input", () => {
+            targetVolume = slider.value;
+            audio.volume = slider.value;
+        });
+    </script>
 
 </body>
 </html>
