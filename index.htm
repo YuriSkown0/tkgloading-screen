@@ -57,12 +57,12 @@
             100% { transform: translateY(0px); }
         }
 
-        /* Volume control */
+        /* Contrôle du volume en haut droite */
         .volume-control {
             position: absolute;
-            bottom: 25px;
+            top: 25px;
             right: 35px;
-            z-index: 2;
+            z-index: 3;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -91,21 +91,20 @@
 
     <div class="loading-text">Chargement du serveur...</div>
 
-    <!-- Volume control -->
+    <!-- Volume en haut droite -->
     <div class="volume-control">
         <span class="volume-label">🔊</span>
         <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
     </div>
 
-    <!-- Musique -->
     <audio id="bgm" src="musique1.mp3" autoplay loop></audio>
 
     <script>
         const audio = document.getElementById("bgm");
         const slider = document.getElementById("volumeSlider");
 
-        let targetVolume = 0.5;   // Volume final
-        audio.volume = 0;         // Volume initial (fade-in)
+        let targetVolume = 0.5;
+        audio.volume = 0;
 
         slider.value = targetVolume;
 
@@ -117,9 +116,9 @@
                 audio.volume = targetVolume;
                 clearInterval(fadeInterval);
             }
-        }, 100); // toutes les 100 ms
+        }, 100);
 
-        // Contrôle manuel du volume
+        // Changement manuel du volume
         slider.addEventListener("input", () => {
             targetVolume = slider.value;
             audio.volume = slider.value;
