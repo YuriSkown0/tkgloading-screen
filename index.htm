@@ -118,7 +118,7 @@
     // Fade-in ultra doux
     let fade = setInterval(() => {
         if (audio.volume < Math.pow(targetVolume, 2)) {
-            audio.volume += 0.003;
+            audio.volume += 0.01;
         } else {
             audio.volume = Math.pow(targetVolume, 2);
             clearInterval(fade);
