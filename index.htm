@@ -99,31 +99,38 @@
 
     <audio id="bgm" src="musique1.mp3" autoplay loop></audio>
 
-    <script>
-        const audio = document.getElementById("bgm");
-        const slider = document.getElementById("volumeSlider");
+ <script>
+    const audio = document.getElementById("bgm");
+    const slider = document.getElementById("volumeSlider");
 
-        let targetVolume = 0.1;
-        audio.volume = 0.1;
+    // Volume perçu "parfait"
+    let targetVolume = 0.15;
 
-        slider.value = targetVolume;
+    // Démarrage silencieux
+    audio.volume = 0;
+    slider.value = targetVolume;
 
-        // Fade-in progressif
-        let fadeInterval = setInterval(() => {
-            if (audio.volume < targetVolume) {
-                audio.volume += 0.01;
-            } else {
-                audio.volume = targetVolume;
-                clearInterval(fadeInterval);
-            }
-        }, 100);
+    // Conversion linéaire → logarithmique (son plus naturel)
+    function setPerceivedVolume(value) {
+        audio.volume = Math.pow(value, 2);
+    }
 
-        // Changement manuel du volume
-        slider.addEventListener("input", () => {
-            targetVolume = slider.value;
-            audio.volume = slider.value;
-        });
-    </script>
+    // Fade-in ultra doux
+    let fade = setInterval(() => {
+        if (audio.volume < Math.pow(targetVolume, 2)) {
+            audio.volume += 0.003;
+        } else {
+            audio.volume = Math.pow(targetVolume, 2);
+            clearInterval(fade);
+        }
+    }, 100);
+
+    // Slider manuel
+    slider.addEventListener("input", () => {
+        targetVolume = parseFloat(slider.value);
+        setPerceivedVolume(targetVolume);
+    });
+</script>
 
 </body>
 </html>
