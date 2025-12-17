@@ -111,7 +111,7 @@
         // Fade-in progressif
         let fadeInterval = setInterval(() => {
             if (audio.volume < targetVolume) {
-                audio.volume += 0.01;
+                audio.volume += 0.005;
             } else {
                 audio.volume = targetVolume;
                 clearInterval(fadeInterval);
