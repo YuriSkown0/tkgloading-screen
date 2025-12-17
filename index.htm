@@ -103,7 +103,7 @@
         const audio = document.getElementById("bgm");
         const slider = document.getElementById("volumeSlider");
 
-        let targetVolume = 0.005;
+        let targetVolume = 0.009;
         audio.volume = 0;
 
         slider.value = targetVolume;
@@ -111,7 +111,7 @@
         // Fade-in progressif
         let fadeInterval = setInterval(() => {
             if (audio.volume < targetVolume) {
-                audio.volume += 0.005;
+                audio.volume += 0.009;
             } else {
                 audio.volume = targetVolume;
                 clearInterval(fadeInterval);
